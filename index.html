@@ -5,21 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>toDoList</title>
-    <script src="app.js"></script>
+    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>toDoList</h1>
-    <div class="container">
-        <h1>To Do</h1>
-        <ul id="todo">
+    <div class="outer-container">
+        <div class="container">
+            <h1>toDo</h1>
+            <ul id="todo">
+                
+            </ul>
+            <input type="text" name="todo-input" id="todo-input">
+            <button id="add-button">addTask</button>
+        </div>
+        <div class="container">
+            <h1>doneList</h1>
+            <ul id="done">
 
-        </ul>
-    </div>
-    <div class="container">
-        <h1>Done</h1>
-        <ul id="done">
-
-        </ul>
+            </ul>
+        </div>
     </div>
 </body>
 </html>
