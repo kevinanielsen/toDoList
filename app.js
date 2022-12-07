@@ -1,5 +1,7 @@
 let addTaskButton = document.getElementById('add-button');
 let i = 0;
+let currentId = '';
+
 const addTask = () => {
     i++;
     let newItem = document.createElement('li');
@@ -7,12 +9,14 @@ const addTask = () => {
     doneButton.innerHTML = 'Done';
     newItem.innerHTML = 'Hej';
     newItem.appendChild(doneButton);
-    doneButton.setAttribute('class', 'done-button');
+    doneButton.setAttribute('id', 'done-button' + i);
     document.getElementById('todo').appendChild(newItem);
+    doneButton.addEventListener('click', moveTask);
 }
 
-const moveTask = () => {
-    
+const moveTask = (event) => {
+    event.target.style.display = 'none';
+    document.getElementById('done').appendChild(event.target.parentElement);
 }
 addTaskButton.addEventListener('click', addTask)
-document.getElementsByClassName[i].addEventListener('click', )
+
