@@ -4,47 +4,52 @@ let currentTasks = [];
 let doneTasks = [];
 let j = 0;
 
-let storedTasks = localStorage.currentTasks;
-let storedTasksArr = storedTasks.split(',');
-
-const moveTask = (event) => {
-    event.target.style.display = 'none';
-    document.getElementById('done').appendChild(event.target.parentElement);
-    localStorage.removeItem(currentTasks[event.target.value]);
-
+// If localStorage not empty, it runs through the list and adds all items to toDo list.
+let storedTasks = '';
+let storedTasksArr = [];
+if (localStorage.currentTasks != undefined) {
+    storedTasks = localStorage.currentTasks;
+    storedTasksArr = storedTasks.split(',');
+    for (let i = 0; i < storedTasksArr.length; i++) {
+        let storedItem = document.createElement('li');
+        let doneButton = document.createElement('button');
+        let newTask = document.createElement('p');
+        storedItem.appendChild(newTask);
+        storedItem.setAttribute('id', 'item' + i);
+        newTask.innerHTML = storedTasksArr[i];
+        storedItem.appendChild(doneButton);
+        doneButton.setAttribute('class', 'done-button');
+        doneButton.setAttribute('id', 'done-button' + i);
+        doneButton.innerHTML = 'Done';
+        document.getElementById('todo').appendChild(storedItem);
+        currentTasks.push(storedTasksArr[i]);
+    }
 }
 
-for (let i = 0; i < storedTasksArr.length; i++) {
-    let storedItem = document.createElement('li');
-    let doneButton = document.createElement('button');
-    storedItem.innerHTML = storedTasksArr[i];
-    storedItem.appendChild(doneButton);
-    doneButton.setAttribute('id', 'done-button' + i);
-    doneButton.innerHTML = 'Done';
-    document.getElementById('todo').appendChild(storedItem);
-    doneButton.addEventListener('click', moveTask);
-    currentTasks.push(storedTasksArr[i]);
-}
-
+// Adds a task to the localStorage.
 const addTask = () => {
-    j++;
-    let newItem = document.createElement('li');
-    let doneButton = document.createElement('button');
+
     let inputData = document.getElementById('todo-input').value;
-    
-    newItem.innerHTML = inputData;
-    newItem.appendChild(doneButton);
-    doneButton.setAttribute('id', 'done-button' + j);
-    document.getElementById('todo').appendChild(newItem);
-    doneButton.addEventListener('click', moveTask);
     currentTasks.push(inputData);
-
-    doneButton.innerHTML = 'Done';
-
     localStorage.setItem('currentTasks', currentTasks);
-    console.log(localStorage);
 }
-
 
 addTaskButton.addEventListener('click', addTask);
 
+// Function that moves a selected task from toDo to doneList and removes it from localStorage
+const moveTask = (event) => {
+    let doneTaskButton = event.target;
+    doneTaskButton.style.display = 'none';
+    let doneTaskText = doneTaskButton.parentElement.childNodes[0].textContent;
+    
+    document.getElementById('done').appendChild(doneTaskButton.parentElement);
+
+    localStorage.setItem('currentTasks', currentTasks.splice(localStorage.currentTasks.search(doneTaskText), doneTaskText.length), );
+    console.log('Location:', localStorage.currentTasks.search(doneTaskText))
+    console.log('Location:', localStorage.currentTasks.search(doneTaskText))
+}
+// Adds eventlisteners to all items with 'done-button' class. 
+let doneButtons = document.querySelectorAll('.done-button');
+for (let k = 0; k < doneButtons.length; k++) {
+    doneButtons[k].addEventListener('click', moveTask);
+}
