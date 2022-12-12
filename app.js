@@ -46,7 +46,6 @@ const moveTask = (event) => {
     console.log('Text:', doneTaskText);
     document.getElementById('done').appendChild(doneTaskButton.parentElement);
 
-    //let tempStorage = localStorage.currentTasks;
     let indexToRemove = currentTasks.findIndex((element) => element == doneTaskText);
     currentTasks.splice(indexToRemove, 1);
     localStorage.setItem('currentTasks', currentTasks);
